@@ -1,22 +1,19 @@
 package com.mondiv.global.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.client.ClientHttpRequestExecution;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
-import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.http.client.JdkClientHttpRequestFactory;
-import org.springframework.lang.NonNull;
-import org.springframework.web.client.RestClient;
+import module java.base;
+import module java.net.http;
+import module org.slf4j;
+import module spring.beans;
+import module spring.boot;
+import module spring.context;
+import module spring.core;
+import module spring.web;
 
-import java.io.IOException;
-import java.net.http.HttpClient;
 import java.time.Duration;
-import java.util.LinkedHashMap;
-import java.util.UUID;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.lang.NonNull;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.client.ClientHttpResponse;
 
 @Configuration
 public class HttpClientConfig {
