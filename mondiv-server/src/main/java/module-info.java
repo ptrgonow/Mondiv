@@ -1,50 +1,31 @@
-module mondiv.mondiv.server.main {
+module mondiv.server {
     
-    // JDK
+    // ----- requires -----
     requires java.base;
     requires java.net.http;
     requires java.sql;
-    requires java.naming;
-    requires java.desktop;
-    requires java.management;
-    
-    // Jakarta EE
     requires jakarta.persistence;
     requires jakarta.annotation;
-    
-    requires java.compiler;
-    
-    // Spring
     requires spring.core;
-    requires spring.context;
     requires spring.beans;
+    requires spring.context;
     requires spring.web;
     requires spring.webmvc;
     requires spring.boot;
     requires spring.boot.autoconfigure;
-    requires spring.boot.actuator;
-    requires spring.boot.actuator.autoconfigure;
-    requires spring.boot.starter.web;
-    requires spring.boot.starter.jdbc;
-    requires spring.boot.starter.data.jpa;
-    requires spring.data.commons;
-    requires spring.tx;
-    requires spring.aspects;
-    
-    // Logging
     requires org.slf4j;
     requires io.github.cdimascio.dotenv.java;
     
-    requires org.hibernate.orm.core;
-    requires com.fasterxml.jackson.annotation;
+    // ----- requires static -----
+    requires static lombok;
     
+    // ----- exports -----
     exports com.mondiv.global.config;
     exports com.mondiv.global.properties;
     exports com.mondiv.external.controller;
-    exports com.mondiv.internal;
     
-    opens com.mondiv.global.config;
-    opens com.mondiv.global.properties;
-    opens com.mondiv.external.controller;
-    opens com.mondiv.internal;
+    // ----- opens (reflection) -----
+    opens com.mondiv.global.config to spring.core, spring.beans, spring.context, spring.web, spring.boot, com.fasterxml.jackson.databind;
+    opens com.mondiv.external.controller to spring.core, spring.beans, spring.context, spring.web, spring.boot, com.fasterxml.jackson.databind;
+    opens com.mondiv.global.properties to spring.core, spring.beans, spring.context, spring.boot, com.fasterxml.jackson.databind;
 }
