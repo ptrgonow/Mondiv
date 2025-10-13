@@ -2,19 +2,17 @@ package com.mondiv.global.config;
 
 import module java.base;
 import module java.net.http;
-import module org.slf4j;
 import module spring.beans;
 import module spring.boot;
 import module spring.context;
 import module spring.core;
 import module spring.web;
-
-import java.time.Duration;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.lang.NonNull;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpResponse;
 
+@Slf4j
 @Configuration
 public class HttpClientConfig {
     
@@ -30,7 +28,7 @@ public class HttpClientConfig {
         
         // 2) Spring JDK 요청 팩토리 구성: 응답 읽기 타임아웃
         JdkClientHttpRequestFactory requestFactory = new JdkClientHttpRequestFactory(httpClient);
-        requestFactory.setReadTimeout(Duration.ofSeconds(10));
+        //requestFactory.setReadTimeout(Duration.ofSeconds(10));
         
         // 3) 공통 인터셉터(로깅 + X-Request-Id 자동 주입)
         ClientHttpRequestInterceptor logging = new LoggingInterceptor();
@@ -60,7 +58,6 @@ public class HttpClientConfig {
     
     // 간단 로깅 인터셉터: 요청 메서드/URI/상태/헤더 일부 출력
     static class LoggingInterceptor implements ClientHttpRequestInterceptor {
-        private static final Logger log = LoggerFactory.getLogger(LoggingInterceptor.class);
         
         @Override
         public @NonNull ClientHttpResponse intercept(@NonNull HttpRequest request,

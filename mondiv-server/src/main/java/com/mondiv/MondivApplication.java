@@ -1,4 +1,4 @@
-package com.mondiv.internal;
+package com.mondiv;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.boot.SpringApplication;
@@ -20,7 +20,7 @@ public class MondivApplication {
         });
     }
     
-    public static void main(String[] args) {
+    static void main(String[] args) {
         Thread.currentThread().setName("Mondiv-Main");
         SpringApplication.run(MondivApplication.class, args);
     }

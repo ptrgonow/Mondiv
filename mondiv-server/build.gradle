@@ -7,44 +7,61 @@ plugins {
 group = 'com.mondiv'
 version = '0.0.1'
 
+/** JDK 25 */
 java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(25)
-    }
-    // JDK 25 모듈 시스템 활용을 위한 설정
-    modularity.inferModulePath = true
+    toolchain { languageVersion.set(JavaLanguageVersion.of(25)) }
+    withSourcesJar()
+    withJavadocJar()
 }
 
+/** module-info 생성기 */
+apply from: "$rootDir/gradle/module-info.gradle"
+
+/** Java 컴파일 옵션 */
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release.set(25)
+}
+
+/** 의존성 구성 */
 configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
+    compileOnly { extendsFrom annotationProcessor }
+    // 전체 구성에 버전 충돌 탐지 적용
+    configureEach {
+        resolutionStrategy {
+            failOnVersionConflict()
+        }
     }
 }
 
-repositories {
-    mavenCentral()
-}
+repositories { mavenCentral() }
 
+/** 의존성(기존 유지) */
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
     implementation 'io.github.cdimascio:dotenv-java:3.0.2'
+
     compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
-// JDK 25를 위한 컴파일 옵션
-tasks.withType(JavaCompile).configureEach {
-    sourceCompatibility = '25'
-    targetCompatibility = '25'
-}
 
-tasks.named('test') {
-    useJUnitPlatform()
+/** module-info 내용 미리보기 */
+tasks.register('printModuleInfo') {
+    group = 'verification'
+    dependsOn 'generateModuleInfo'
+    doLast {
+        def f = file('src/main/java/module-info.java')
+        println f.exists() ? f.text : 'module-info.java not found'
+    }
 }

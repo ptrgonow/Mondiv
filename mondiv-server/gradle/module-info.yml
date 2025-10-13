@@ -1,0 +1,46 @@
+moduleName: mondiv.server
+requires:
+  - java.base
+  - java.net.http
+  - java.sql
+  - jakarta.persistence
+  - jakarta.annotation
+  - spring.core
+  - spring.beans
+  - spring.context
+  - spring.web
+  - spring.webmvc
+  - spring.boot
+  - spring.boot.autoconfigure
+  - org.slf4j
+  - io.github.cdimascio.dotenv.java
+
+requiresStatic:
+  - lombok
+
+exports:
+  - com.mondiv.global.config
+  - com.mondiv.global.properties
+  - com.mondiv.external.controller
+
+opensRules:
+  com.mondiv.global.config:
+    - spring.core
+    - spring.beans
+    - spring.context
+    - spring.web
+    - spring.boot
+    - com.fasterxml.jackson.databind
+  com.mondiv.external.controller:
+    - spring.core
+    - spring.beans
+    - spring.context
+    - spring.web
+    - spring.boot
+    - com.fasterxml.jackson.databind
+  com.mondiv.global.properties:
+    - spring.core
+    - spring.beans
+    - spring.context
+    - spring.boot
+    - com.fasterxml.jackson.databind
